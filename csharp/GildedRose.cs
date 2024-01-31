@@ -85,5 +85,35 @@ namespace csharp
                 }
             }
         }
+
+        /// <summary>
+        /// Check if an item is legendary based on conditions.
+        /// </summary>
+        /// <param name="item">The Item to check.</param>
+        /// <returns></returns>
+        public static bool IsLegendary(Item item)
+        {
+            return item.Quality >= 80;
+        }
+
+        /// <summary>
+        /// Check if an item is one whose value increases over time.
+        /// </summary>
+        /// <param name="item">The item to check.</param>
+        /// <returns></returns>
+        public static bool IsValueIncreaseItem(Item item)
+        {
+            return item.Name == "Aged Brie";
+        }
+
+        /// <summary>
+        /// Check if an item is backstage passes.
+        /// </summary>
+        /// <param name="item">The item to check</param>
+        /// <returns></returns>
+        public static bool IsBackstagePass(Item item)
+        {
+            return item.Name.StartsWith("Backstage passes");
+        }
     }
 }

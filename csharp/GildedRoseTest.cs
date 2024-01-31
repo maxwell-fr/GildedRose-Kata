@@ -61,7 +61,29 @@ namespace csharp
         [Test]
         public void BackstagePassItem()
         {
-            throw new NotImplementedException();
+            IList<Item> items = new List<Item>
+            {
+                new Item
+                {
+                    Name = "Backstage passes to a TAFKAL80ETC concert",
+                    SellIn = 15,
+                    Quality = 20
+                }
+            };
+
+            var sellInValues = Enumerable.Range(-15, 31).Reverse().ToArray();
+            var qualityValues = new[] {20,21,22,23,24,25,27,29,31,33,35,38,41,44,47,50,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+            var rose = new GildedRose(items);
+            for (var i = 0; i < 30; ++i)
+            {
+                Assert.AreEqual(sellInValues[i], items[0].SellIn);
+                Assert.AreEqual(qualityValues[i], items[0].Quality);
+                rose.UpdateQuality();
+            }
+            Assert.AreEqual("Backstage passes to a TAFKAL80ETC concert", items[0].Name);
+
+            return;
         }
 
         /// <summary>

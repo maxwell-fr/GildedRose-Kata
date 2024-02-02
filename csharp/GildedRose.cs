@@ -14,74 +14,51 @@ namespace csharp
         {
             foreach (var item in _items)
             {
-                if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert")
+                if (IsLegendary(item))
                 {
-                    if (item.Quality > 0)
+                    //Nothing need be done here
+                }
+                else if (IsValueIncreaseItem((item)))
+                {
+                    item.Quality = int.Min(50, item.SellIn switch
                     {
-                        if (item.Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            item.Quality = item.Quality - 1;
-                        }
-                    }
+                        > 0 => item.Quality + 1,
+                        <= 0 => item.Quality + 2
+                    });
+                    --item.SellIn;
+                }
+                else if (IsBackstagePass(item))
+                {
+                    item.Quality = item.SellIn switch
+                    {
+                        > 10 =>
+                            item.Quality + 1,
+                        <= 10 and > 5 =>
+                            item.Quality + 2,
+                        <= 5 and > 0 =>
+                            item.Quality + 3,
+                        <= 0 =>
+                            0
+                    };
+                    --item.SellIn;
+                }
+                else if (IsConjuredItem(item))
+                {
+                    item.Quality = item.SellIn switch
+                    {
+                        > 0 => int.Max(0, item.Quality - 2),
+                        <= 0 => int.Max(0, item.Quality - 4)
+                    };
+                    --item.SellIn;
                 }
                 else
                 {
-                    if (item.Quality < 50)
+                    item.Quality = item.SellIn switch
                     {
-                        item.Quality = item.Quality + 1;
-
-                        if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (item.SellIn < 11)
-                            {
-                                if (item.Quality < 50)
-                                {
-                                    item.Quality = item.Quality + 1;
-                                }
-                            }
-
-                            if (item.SellIn < 6)
-                            {
-                                if (item.Quality < 50)
-                                {
-                                    item.Quality = item.Quality + 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (item.Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    item.SellIn = item.SellIn - 1;
-                }
-
-                if (item.SellIn < 0)
-                {
-                    if (item.Name != "Aged Brie")
-                    {
-                        if (item.Name != "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (item.Quality > 0)
-                            {
-                                if (item.Name != "Sulfuras, Hand of Ragnaros")
-                                {
-                                    item.Quality = item.Quality - 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            item.Quality = item.Quality - item.Quality;
-                        }
-                    }
-                    else
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.Quality = item.Quality + 1;
-                        }
-                    }
+                        > 0 => int.Max(0, item.Quality - 1),
+                        <= 0 => int.Max(0, item.Quality - 2)
+                    };
+                    --item.SellIn;
                 }
             }
         }
@@ -114,6 +91,16 @@ namespace csharp
         public static bool IsBackstagePass(Item item)
         {
             return item.Name.StartsWith("Backstage passes");
+        }
+
+        /// <summary>
+        /// Check if an item is Conjured
+        /// </summary>
+        /// <param name="item">The item to check</param>
+        /// <returns></returns>
+        public static bool IsConjuredItem(Item item)
+        {
+            return item.Name.StartsWith("Conjured");
         }
     }
 }

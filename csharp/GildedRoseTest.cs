@@ -51,8 +51,6 @@ namespace csharp
                 rose.UpdateQuality();
             }
             Assert.AreEqual("Elixir of the Mongoose", items[0].Name);
-
-            return;
         }
 
         /// <summary>
@@ -82,8 +80,30 @@ namespace csharp
                 rose.UpdateQuality();
             }
             Assert.AreEqual("Backstage passes to a TAFKAL80ETC concert", items[0].Name);
+        }
 
-            return;
+        /// <summary>
+        /// Check conjured item handling.
+        /// </summary>
+        [Test]
+        public void ConjuredItem()
+        {
+            IList<Item> items = new List<Item>
+            {
+                new Item { Name = "Conjured Mana Biscuit", SellIn = 6, Quality = 10 }
+            };
+
+            var sellInValues = Enumerable.Range(-24, 31).Reverse().ToArray();
+            var qualityValues = new[] {10,8,6,4,2,0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0, 0};
+
+            var rose = new GildedRose(items);
+            for (var i = 0; i < 30; ++i)
+            {
+                Assert.AreEqual(sellInValues[i], items[0].SellIn);
+                Assert.AreEqual(qualityValues[i], items[0].Quality);
+                rose.UpdateQuality();
+            }
+            Assert.AreEqual("Conjured Mana Biscuit", items[0].Name);
         }
 
         /// <summary>
@@ -124,14 +144,13 @@ namespace csharp
 
             Assert.False(GildedRose.IsLegendary(items[0]));
             Assert.True(GildedRose.IsLegendary(items[1]));
-
         }
 
         /// <summary>
         /// Check IsLinearIncrease to make sure it correctly identifies the item
         /// </summary>
         [Test]
-        public void TestIsLinearIncrease()
+        public void TestIsValueIncrease()
         {
             IList<Item> items = new List<Item>
             {
@@ -143,6 +162,21 @@ namespace csharp
 
             Assert.False(GildedRose.IsValueIncreaseItem(items[0]));
             Assert.True(GildedRose.IsValueIncreaseItem(items[1]));
+        }
+
+        [Test]
+        public void TestIsConjured()
+        {
+            IList<Item> items = new List<Item>
+            {
+                new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
+                new Item {Name = "Conjured Mana Biscuit", SellIn = 6, Quality = 69}
+            };
+
+            var rose = new GildedRose(items);
+
+            Assert.False(GildedRose.IsConjuredItem(items[0]));
+            Assert.True(GildedRose.IsConjuredItem(items[1]));
         }
     }
 }

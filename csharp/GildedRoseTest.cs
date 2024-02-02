@@ -122,7 +122,6 @@ namespace csharp
                     Quality = 49
                 },
             };
-            var rose = new GildedRose(items);
 
             Assert.False(GildedRose.IsBackstagePass(items[0]));
             Assert.True(GildedRose.IsBackstagePass(items[1]));
@@ -140,8 +139,6 @@ namespace csharp
                 new Item {Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80}
             };
 
-            var rose = new GildedRose(items);
-
             Assert.False(GildedRose.IsLegendary(items[0]));
             Assert.True(GildedRose.IsLegendary(items[1]));
         }
@@ -158,12 +155,13 @@ namespace csharp
                 new Item {Name = "Aged Brie", SellIn = 0, Quality = 69}
             };
 
-            var rose = new GildedRose(items);
-
             Assert.False(GildedRose.IsValueIncreaseItem(items[0]));
             Assert.True(GildedRose.IsValueIncreaseItem(items[1]));
         }
 
+        /// <summary>
+        /// Check IsConjured to make sure it correctly identifies te item
+        /// </summary>
         [Test]
         public void TestIsConjured()
         {
@@ -172,8 +170,6 @@ namespace csharp
                 new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
                 new Item {Name = "Conjured Mana Biscuit", SellIn = 6, Quality = 69}
             };
-
-            var rose = new GildedRose(items);
 
             Assert.False(GildedRose.IsConjuredItem(items[0]));
             Assert.True(GildedRose.IsConjuredItem(items[1]));

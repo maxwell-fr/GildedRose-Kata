@@ -1,4 +1,6 @@
-This repository is derived from the template made by [Emily Bache](https://github.com/emilybache/GildedRose-Refactoring-Kata).  Original README follows.
+This repository is derived from the template made by [Emily Bache](https://github.com/emilybache/GildedRose-Refactoring-Kata).  The C# component is complete.
+
+The original README follows.
 
 # Gilded Rose Refactoring Kata
 
